@@ -1,0 +1,3 @@
+[submodule "dependencies/vscode-material-icon-theme"]
+	path = dependencies/vscode-material-icon-theme
+	url = https://github.com/material-extensions/vscode-material-icon-theme
