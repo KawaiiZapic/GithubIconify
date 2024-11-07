@@ -1,10 +1,14 @@
 import { defineConfig, UserConfig } from "vite";
 import GenerateJSON from "./plugins/GenerateJSON";
+import zip from "./plugins/ViteZip";
 
 export default defineConfig(() => {
 	return {
 		plugins: [
-			GenerateJSON()
+			GenerateJSON(),
+			zip({
+				outDir: "dist"
+			})
 		],
 		build: {
 			emptyOutDir: true,
