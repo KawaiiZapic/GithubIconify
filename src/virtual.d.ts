@@ -1,14 +1,14 @@
-
-
 declare module "virtual:icons" {
-    const icons: Required<Omit<
-        import("../dependencies/vscode-material-icon-theme/src/core/models/manifest").Manifest,
-        "iconDefinitions"
-        | "light"
-        | "hidesExplorerArrows"
-        | "highContrast"
-        | "folderExpanded"
-        | "folderNamesExpanded"
-    >>;
+    const icons: Required<
+        Omit<
+            import("material-icon-theme").Manifest,
+            "iconDefinitions"
+            | "light"
+            | "hidesExplorerArrows"
+            | "highContrast"
+            | "folderExpanded"
+            | "folderNamesExpanded"
+        >
+    >;
     export default icons;
 }

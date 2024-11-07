@@ -1,17 +1,16 @@
 import {
-    generateFileIcons,
-    generateFolderIcons,
-    generateManifest,
-    getDefaultConfig
-} from "../dependencies/vscode-material-icon-theme/src/core";
+    generateManifest
+} from "material-icon-theme";
 
 import { bundledLanguagesInfo } from "shiki";
 
 import fs from "fs";
 import type { Plugin } from "vite";
+import path from "path";
 
 export default (): Plugin => {
     let copyPublic = false;
+    let iconsPath: string = path.resolve("./node_modules/material-icon-theme/icons");
     return {
         name: "generate-json",
         configResolved(config) {
@@ -20,7 +19,7 @@ export default (): Plugin => {
         closeBundle: {
             handler() {
                 try {
-                    copyPublic && fs.cpSync("./dependencies/vscode-material-icon-theme/icons", "./dist/icons", { recursive: true });
+                    copyPublic && fs.cpSync(iconsPath, "./dist/icons", { recursive: true });
                 } catch (error) {
                     console.error(error);
                     throw Error('An error while generating the manifest occurred!');
@@ -33,12 +32,8 @@ export default (): Plugin => {
                 return "\0virtual:icons";
             }
         },
-        load(id) {
+        async load(id) {
             if (id === "\0virtual:icons") {
-                const config = getDefaultConfig();
-                generateFileIcons(config.files.color, config.opacity, config.saturation);
-                generateFolderIcons(config.folders.color, config.opacity, config.saturation);
-
                 const manifest = generateManifest();
                 delete manifest.iconDefinitions;
                 delete manifest.light;
@@ -48,7 +43,7 @@ export default (): Plugin => {
                 delete manifest.folderNamesExpanded;
                 const exts = Object.fromEntries(bundledLanguagesInfo.flatMap((i) => i.aliases?.map((a) => [a, i.id]) || []));
                 for (const id in exts) {
-                    if (fs.existsSync("./dependencies/vscode-material-icon-theme/icons/" + exts[id] + ".svg")) {
+                    if (fs.existsSync(path.join(iconsPath, exts[id] + ".svg"))) {
                         manifest.languageIds![id] = exts[id];
                     }
                 }

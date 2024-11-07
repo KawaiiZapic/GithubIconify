@@ -1,6 +1,6 @@
 {
 	"name": "github-iconify",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Give every file and directory a icon!",
 	"main": "index.js",
 	"repository": "https://github.com/KawaiiZapic/GithubIconify",
@@ -9,15 +9,16 @@
 	"private": false,
 	"type": "module",
 	"scripts": {
-		"build": "vite build"
+		"build": "vite build",
+		"type-check": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@types/node": "^20.11.20",
 		"@types/webextension-polyfill": "^0.9.1",
+		"material-icon-theme": "^5.13.0",
 		"shiki": "^1.22.2",
 		"typescript": "^4.8.3",
-		"vite": "^3.1.2",
-		"water.css": "^2.1.1",
+		"vite": "^5.4.10",
 		"webextension-polyfill": "^0.10.0"
 	}
 }

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Github Iconify",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Give every file and directory a icon!",
   "icons": {
     "48": "icons/border-48.png"
@@ -14,22 +14,21 @@
       ],
       "js": [
         "content-script.js"
+      ],
+      "css": [
+        "content-script.css"
       ]
     }
   ],
   "web_accessible_resources": [
     {
       "resources": [
-        "assets/host.js",
         "icons/*.svg"
       ],
       "matches": [
         "https://github.com/*"
       ]
     }
-  ],
-  "permissions": [
-    "storage"
   ],
   "action": {
     "default_icon": {

@@ -18,60 +18,53 @@ import Icons from "virtual:icons";
         const name = fileName.toLocaleLowerCase();
         let url = getIcon(Icons.file);
         const img = document.createElement("img");
-        img.src = url;
         if (name in Icons.fileNames) {
-            img.src = getIcon(Icons.fileNames[name]);
+            url = getIcon(Icons.fileNames[name]);
         } else {
             const matched = fileExts.filter(v => name.endsWith(v)).sort((a, b) => a.length - b.length)[0]?.substring(1);
             if (matched in Icons.fileExtensions) {
-                img.src = getIcon(Icons.fileExtensions[matched]);
+                url = getIcon(Icons.fileExtensions[matched]);
             } else {
                 const ext = getFileExt(name);
                 if (ext in Icons.fileExtensions) {
-                    img.src = getIcon(Icons.fileExtensions[ext]);
+                    url = getIcon(Icons.fileExtensions[ext]);
                 } else if (ext in Icons.languageIds) {
-                    img.src = getIcon(Icons.languageIds[ext]);
+                    url = getIcon(Icons.languageIds[ext]);
                 }
             }
         }
-        img.width = 16;
-        img.height = 16;
+        img.src = url;
         return img;
     }
     const getFolderIcon = (folderName: string, isOpen: boolean) : HTMLImageElement => {
         const name = getFolderName(folderName).toLocaleLowerCase();
         let url = getIcon(Icons.folder, isOpen);
         const img = document.createElement("img");
-        img.src = url;
         if (name in Icons.folderNames) {
-            img.src = getIcon(Icons.folderNames[name], isOpen);
+            url = getIcon(Icons.folderNames[name], isOpen);
         }
-        img.width = 16;
-        img.height = 16;
+        img.src = url;
         return img;
     }
     const handlerNormal = (v: Element) => {
         const fileName = v.nextElementSibling!.textContent!;
         const isDir = v.classList.contains("icon-directory");
         const x = isDir ? getFolderIcon(fileName, false) : getFileIcon(fileName);
-        v.after(x);
-        v.remove();
+        v.replaceWith(x);
     }
     const handlerSideListDirectory = (v: Element) => {
         const isDirOpen = v.classList.contains("octicon-file-directory-open-fill");
         const fileName = v.parentElement!.parentElement!.nextElementSibling!.textContent!;
         v.previousElementSibling?.remove();
         const x = getFolderIcon(fileName, isDirOpen);
-        v.after(x);
-        v.remove();
+        v.replaceWith(x);
     }
     const handlerSideListFile = (v: Element) => {
         const fileName = v.parentElement!.nextElementSibling!.textContent!;
         const x = getFileIcon(fileName);
-        v.after(x);
-        v.remove();
+        v.replaceWith(x);
     }
-    const ob = new MutationObserver((x) => {
+    const ob = new MutationObserver(() => {
         document.querySelectorAll(".react-directory-filename-column > svg").forEach(v => {
             handlerNormal(v);
         });
@@ -80,6 +73,9 @@ import Icons from "virtual:icons";
         });
         document.querySelectorAll(".PRIVATE_TreeView-item-visual .octicon-file-directory-fill, .PRIVATE_TreeView-item-visual .octicon-file-directory-open-fill").forEach(v => {
             handlerSideListDirectory(v);
+        });
+        document.querySelectorAll("a[data-testid='up-tree'] svg").forEach(v => {
+            v.replaceWith(getFolderIcon("", false));
         });
     });
     ob.observe(document.documentElement, {

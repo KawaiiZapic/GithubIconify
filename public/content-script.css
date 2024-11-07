@@ -1,0 +1,10 @@
+.react-directory-filename-column > img,
+.PRIVATE_TreeView-item-visual img,
+a[data-testid='up-tree'] img {
+    width: 16px;
+    height: 16px;
+}
+
+a[data-testid='up-tree'] img {
+    margin-right: 10px;
+}

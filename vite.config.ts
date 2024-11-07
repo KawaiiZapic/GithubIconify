@@ -1,7 +1,7 @@
 import { defineConfig, UserConfig } from "vite";
 import GenerateJSON from "./plugins/GenerateJSON";
 
-export default defineConfig((env) => {
+export default defineConfig(() => {
 	return {
 		plugins: [
 			GenerateJSON()
@@ -9,6 +9,7 @@ export default defineConfig((env) => {
 		build: {
 			emptyOutDir: true,
 			minify: false,
+			target: "esnext",
 			rollupOptions: {
 				input: {
 					"content-script": "src/content/index.ts"
